@@ -16,7 +16,7 @@ class App extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Dot to do list',
-      locale: const Locale('ar'),
+      //  locale: const Locale('ar'),
       theme: ThemeData(
         textTheme: GoogleFonts.tajawalTextTheme(),
 

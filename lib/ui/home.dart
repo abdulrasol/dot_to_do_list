@@ -1,7 +1,8 @@
 import 'package:dot_to_do_list/models/task_model.dart';
+import 'package:dot_to_do_list/ui/widgets/add_task_widget.dart';
 import 'package:dot_to_do_list/ui/widgets/task_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:get/get.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -39,6 +40,20 @@ class Home extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          await Get.defaultDialog(
+            barrierDismissible: false,
+            title: 'New Task',
+            titlePadding: const EdgeInsets.all(8),
+            contentPadding: const EdgeInsets.all(8),
+            content: const AddTaskWidget(),
+            textCancel: 'Cancel',
+            textConfirm: 'Save',
+          );
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
