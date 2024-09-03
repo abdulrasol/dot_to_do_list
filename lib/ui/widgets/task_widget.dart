@@ -1,8 +1,8 @@
 import 'package:dot_to_do_list/models/task_model.dart';
+import 'package:dot_to_do_list/services/ui_services.dart';
 
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:get/get.dart';
 
 // ignore: must_be_immutable
 class TaskWidget extends StatefulWidget {
@@ -16,8 +16,8 @@ class TaskWidget extends StatefulWidget {
 class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
-    initializeDateFormatting();
-    var format = DateFormat.yMd('ar');
+    UiController uiController = Get.put(UiController());
+    //var format = DateFormat.yMd('ar');
     return Card(
       color: widget.task.isCompleted ? Colors.white54 : Colors.white,
       child: SizedBox(
@@ -66,7 +66,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                           ),
                         ),
                         Text(
-                          format.format(widget.task.dueDate),
+                          uiController.format.format(widget.task.dueDate),
                           style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontStyle: widget.task.isCompleted

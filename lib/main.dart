@@ -1,9 +1,12 @@
 import 'package:dot_to_do_list/ui/home.dart';
+import 'package:dot_to_do_list/ui/widgets/add_task_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
+  initializeDateFormatting();
   runApp(const App());
 }
 
@@ -18,7 +21,7 @@ class App extends StatelessWidget {
       title: 'Dot to do list',
       //  locale: const Locale('ar'),
       theme: ThemeData(
-        textTheme: GoogleFonts.tajawalTextTheme(),
+        textTheme: GoogleFonts.rubikTextTheme(),
 
         // This is the theme of your application.
         //

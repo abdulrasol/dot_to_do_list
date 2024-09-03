@@ -1,4 +1,6 @@
+import 'package:dot_to_do_list/services/ui_services.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddTaskWidget extends StatelessWidget {
@@ -8,6 +10,8 @@ class AddTaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UiController uiController = Get.find();
+
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController titleText = TextEditingController();
     TextEditingController contenctText = TextEditingController();
@@ -17,7 +21,9 @@ class AddTaskWidget extends StatelessWidget {
         borderSide: BorderSide(width: 2, color: Colors.black54),
       ),
     );
-    return Padding(
+    return //Scaffold(
+        //  body:
+        Padding(
       padding: const EdgeInsets.all(8),
       child: Form(
         key: formKey,
@@ -43,6 +49,35 @@ class AddTaskWidget extends StatelessWidget {
               cursorColor: Colors.black,
               maxLines: 5,
               maxLength: 300,
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const Text('Select Due Date'),
+                const Expanded(child: SizedBox()),
+                Obx(
+                  () => ElevatedButton(
+                    onPressed: () async {
+                      DateTime? picked = await showDatePicker(
+                        context: context,
+                        firstDate: uiController.dueDate.value
+                            .subtract(const Duration(days: 30)),
+                        currentDate: uiController.dueDate.value,
+                        lastDate: uiController.dueDate.value.add(
+                          const Duration(days: 365),
+                        ),
+                      );
+                      if (picked != null &&
+                          picked != uiController.dueDate.value) {
+                        uiController.dueDate.value = picked;
+                      }
+                    },
+                    child: Text(
+                      uiController.format.format(uiController.dueDate.value),
+                    ),
+                  ),
+                ),
+              ],
             )
           ],
         ),
