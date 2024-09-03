@@ -10,7 +10,8 @@ class AddTaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UiController uiController = Get.find();
+    UiController uiController = Get.put(UiController());
+    // UiController uiController = Get.find();
 
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController titleText = TextEditingController();
@@ -21,65 +22,101 @@ class AddTaskWidget extends StatelessWidget {
         borderSide: BorderSide(width: 2, color: Colors.black54),
       ),
     );
-    return //Scaffold(
-        //  body:
-        Padding(
-      padding: const EdgeInsets.all(8),
-      child: Form(
-        key: formKey,
-        child: Column(
-          children: [
-            TextFormField(
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                  decoration: textDecoration.copyWith(
+                    label: const Text('Task Title'),
+                  ),
+                  controller: titleText,
+                  focusNode: FocusNode(),
+                  style: GoogleFonts.cairo(color: Colors.black),
+                  cursorColor: Colors.black,
+                  maxLength: 75),
+              const SizedBox(height: 10),
+              TextFormField(
                 decoration: textDecoration.copyWith(
-                  label: const Text('Task Title'),
+                  label: const Text('Task Description'),
                 ),
-                controller: titleText,
+                controller: contenctText,
                 focusNode: FocusNode(),
                 style: GoogleFonts.cairo(color: Colors.black),
                 cursorColor: Colors.black,
-                maxLength: 75),
-            const SizedBox(height: 10),
-            TextFormField(
-              decoration: textDecoration.copyWith(
-                label: const Text('Task Description'),
+                maxLines: 5,
+                maxLength: 300,
               ),
-              controller: contenctText,
-              focusNode: FocusNode(),
-              style: GoogleFonts.cairo(color: Colors.black),
-              cursorColor: Colors.black,
-              maxLines: 5,
-              maxLength: 300,
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                const Text('Select Due Date'),
-                const Expanded(child: SizedBox()),
-                Obx(
-                  () => ElevatedButton(
-                    onPressed: () async {
-                      DateTime? picked = await showDatePicker(
-                        context: context,
-                        firstDate: uiController.dueDate.value
-                            .subtract(const Duration(days: 30)),
-                        currentDate: uiController.dueDate.value,
-                        lastDate: uiController.dueDate.value.add(
-                          const Duration(days: 365),
-                        ),
-                      );
-                      if (picked != null &&
-                          picked != uiController.dueDate.value) {
-                        uiController.dueDate.value = picked;
-                      }
-                    },
-                    child: Text(
-                      uiController.format.format(uiController.dueDate.value),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  const Text('Select Due Date'),
+                  const Expanded(child: SizedBox()),
+                  Obx(
+                    () => ElevatedButton(
+                      onPressed: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          firstDate: uiController.dueDate.value
+                              .subtract(const Duration(days: 30)),
+                          currentDate: uiController.dueDate.value,
+                          lastDate: uiController.dueDate.value.add(
+                            const Duration(days: 365),
+                          ),
+                        );
+                        if (picked != null &&
+                            picked != uiController.dueDate.value) {
+                          uiController.dueDate.value = picked;
+                        }
+                      },
+                      child: Text(
+                        uiController.format.format(uiController.dueDate.value),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            )
-          ],
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  Obx(
+                    () => Checkbox(
+                        value: uiController.hasReminder.value,
+                        onChanged: (value) {
+                          uiController.hasReminder.value = value!;
+                        }),
+                  ),
+                  const Text('Has Reminder'),
+                  const Expanded(child: SizedBox()),
+                  Obx(
+                    () => ElevatedButton(
+                      onPressed: () async {
+                        DateTime? picked = await showDatePicker(
+                          context: context,
+                          firstDate: uiController.dueDate.value
+                              .subtract(const Duration(days: 30)),
+                          currentDate: uiController.dueDate.value,
+                          lastDate: uiController.dueDate.value.add(
+                            const Duration(days: 365),
+                          ),
+                        );
+                        if (picked != null &&
+                            picked != uiController.dueDate.value) {
+                          uiController.dueDate.value = picked;
+                        }
+                      },
+                      child: Text(
+                        uiController.format.format(uiController.dueDate.value),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
