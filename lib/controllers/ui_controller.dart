@@ -4,7 +4,9 @@ import 'package:intl/intl.dart';
 
 class UiController extends GetxController {
   // date fromatter globally
-  var format = DateFormat.yMd('ar');
+
+  var dateFormat = DateFormat.yMd('ar');
+  var timeFormat = DateFormat('Hms', 'ar');
 
   // add to do list widgets vars
   // add to do due date var

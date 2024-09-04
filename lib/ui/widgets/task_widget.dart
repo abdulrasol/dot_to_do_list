@@ -1,5 +1,5 @@
 import 'package:dot_to_do_list/models/task_model.dart';
-import 'package:dot_to_do_list/services/ui_services.dart';
+import 'package:dot_to_do_list/controllers/ui_controller.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,7 +66,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                           ),
                         ),
                         Text(
-                          uiController.format.format(widget.task.dueDate),
+                          uiController.timeFormat.format(widget.task.dueDate),
                           style: TextStyle(
                             fontWeight: FontWeight.normal,
                             fontStyle: widget.task.isCompleted

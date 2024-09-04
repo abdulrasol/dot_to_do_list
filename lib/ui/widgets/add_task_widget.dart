@@ -1,5 +1,8 @@
+import 'dart:math';
+
+import 'package:dot_to_do_list/controllers/data_controller.dart';
 import 'package:dot_to_do_list/models/task_model.dart';
-import 'package:dot_to_do_list/services/ui_services.dart';
+import 'package:dot_to_do_list/controllers/ui_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,8 +15,7 @@ class AddTaskWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UiController uiController = Get.put(UiController());
-    // UiController uiController = Get.find();
-
+    DataController dataController = Get.put(DataController());
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController titleText = TextEditingController();
     TextEditingController contenctText = TextEditingController();
@@ -23,6 +25,9 @@ class AddTaskWidget extends StatelessWidget {
         borderSide: BorderSide(width: 2, color: Colors.black54),
       ),
     );
+
+    Priority priority = Priority.medium;
+
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Form(
@@ -30,14 +35,21 @@ class AddTaskWidget extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
-                decoration: textDecoration.copyWith(
-                  label: const Text('Task Title'),
-                ),
-                controller: titleText,
-                focusNode: FocusNode(),
-                style: GoogleFonts.cairo(color: Colors.black),
-                cursorColor: Colors.black,
-                maxLength: 75),
+              decoration: textDecoration.copyWith(
+                label: const Text('Task Title'),
+              ),
+              controller: titleText,
+              focusNode: FocusNode(),
+              style: GoogleFonts.cairo(color: Colors.black),
+              cursorColor: Colors.black,
+              maxLength: 75,
+              validator: (title) {
+                if (title!.isEmpty) {
+                  return 'this record is required';
+                }
+                return null;
+              },
+            ),
             const SizedBox(height: 10),
             TextFormField(
               decoration: textDecoration.copyWith(
@@ -79,7 +91,7 @@ class AddTaskWidget extends StatelessWidget {
                   children: [
                     const Text('Select Due Date'),
                     Obx(() => Text(
-                          uiController.format
+                          uiController.dateFormat
                               .format(uiController.dueDate.value),
                         )),
                   ],
@@ -93,7 +105,10 @@ class AddTaskWidget extends StatelessWidget {
                 const Text('Priority'),
                 const Expanded(child: SizedBox()),
                 DropdownMenu(
-                    initialSelection: Priority.medium,
+                    initialSelection: priority,
+                    onSelected: ((selected) {
+                      priority = selected!;
+                    }),
                     dropdownMenuEntries: Priority.values.map((i) {
                       return DropdownMenuEntry(
                           value: i,
@@ -166,7 +181,22 @@ class AddTaskWidget extends StatelessWidget {
                       Get.back();
                     },
                     child: const Text('Cancel')),
-                ElevatedButton(onPressed: () {}, child: const Text('Save')),
+                ElevatedButton(
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        var task = TaskModel(
+                          id: '1',
+                          title: titleText.text,
+                          description: contenctText.text,
+                          dueDate: uiController.dueDate.value,
+                          priority: priority,
+                          createdAt: DateTime.now(),
+                        );
+                        dataController.toDolist.add(task);
+                        Get.back();
+                      }
+                    },
+                    child: const Text('Save')),
               ],
             )
           ],
