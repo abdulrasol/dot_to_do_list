@@ -49,8 +49,8 @@ class Home extends StatelessWidget {
             titlePadding: const EdgeInsets.all(8),
             contentPadding: const EdgeInsets.all(8),
             content: const AddTaskWidget(),
-            textCancel: 'Cancel',
-            textConfirm: 'Save',
+            //textCancel: 'Cancel',
+            //textConfirm: 'Save',
           );
         },
         child: const Icon(Icons.add),
