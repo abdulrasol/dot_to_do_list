@@ -1,4 +1,4 @@
-import 'dart:math';
+
 
 import 'package:dot_to_do_list/controllers/data_controller.dart';
 import 'package:dot_to_do_list/models/task_model.dart';
@@ -11,11 +11,10 @@ class AddTaskWidget extends StatelessWidget {
   // AddTaskWidget({super.key});
 
   const AddTaskWidget({super.key});
-
   @override
   Widget build(BuildContext context) {
-    UiController uiController = Get.put(UiController());
-    DataController dataController = Get.put(DataController());
+    UiController uiController = Get.find();
+    DataController dataController = Get.find();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController titleText = TextEditingController();
     TextEditingController contenctText = TextEditingController();
@@ -178,6 +177,7 @@ class AddTaskWidget extends StatelessWidget {
               children: [
                 ElevatedButton(
                     onPressed: () {
+                      print(dataController.toDolist);
                       Get.back();
                     },
                     child: const Text('Cancel')),
@@ -185,13 +185,13 @@ class AddTaskWidget extends StatelessWidget {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         var task = TaskModel(
-                          id: '1',
-                          title: titleText.text,
-                          description: contenctText.text,
-                          dueDate: uiController.dueDate.value,
-                          priority: priority,
-                          createdAt: DateTime.now(),
-                        );
+                            id: '1',
+                            title: titleText.text,
+                            description: contenctText.text,
+                            dueDate: uiController.dueDate.value,
+                            priority: priority,
+                            createdAt: DateTime.now(),
+                            hasReminder: uiController.hasReminder.value);
                         dataController.toDolist.add(task);
                         Get.back();
                       }
