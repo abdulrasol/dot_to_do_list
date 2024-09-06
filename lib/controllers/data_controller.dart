@@ -12,9 +12,9 @@ class DataController extends GetxController {
   // auth
   Future<bool> login({required String email, required String password}) async {
     try {
-      session.value = await user.value
+      var s = await user.value
           .createEmailPasswordSession(email: email, password: password);
-      print(session);
+      print(s.current);
     } catch (e) {
       print(e);
     }
@@ -28,8 +28,8 @@ class DataController extends GetxController {
         .setProject('66d40908001cfa0aae91')
         .setSelfSigned(status: true);
     user = Rx<Account>(Account(client));
-
-    //print(user.value.getSession(sessionId: sessionId));
+//session = Account(client)
+    //print(user.value.);
     //print(session);
     super.onInit();
   }

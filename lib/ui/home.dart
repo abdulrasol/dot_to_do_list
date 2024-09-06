@@ -1,5 +1,4 @@
 import 'package:dot_to_do_list/controllers/ui_controller.dart';
-import 'package:dot_to_do_list/models/task_model.dart';
 import 'package:dot_to_do_list/ui/settings.dart';
 import 'package:dot_to_do_list/ui/widgets/add_task_widget.dart';
 import 'package:dot_to_do_list/ui/widgets/task_widget.dart';

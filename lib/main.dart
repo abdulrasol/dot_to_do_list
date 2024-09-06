@@ -1,4 +1,3 @@
-import 'package:dot_to_do_list/ui/home.dart';
 import 'package:dot_to_do_list/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,7 +7,6 @@ import 'package:intl/date_symbol_data_local.dart';
 void main() {
   // For
   initializeDateFormatting();
-
   runApp(const App());
 }
 
