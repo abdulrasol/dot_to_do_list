@@ -1,5 +1,5 @@
 import 'package:dot_to_do_list/ui/home.dart';
-import 'package:dot_to_do_list/ui/widgets/add_task_widget.dart';
+import 'package:dot_to_do_list/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -41,7 +41,7 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Home(),
+      home: const Settings(),
     );
   }
 }

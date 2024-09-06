@@ -9,6 +9,16 @@ class Settings extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Settings'),
       ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: const [
+          // Account management
+          ListTile(
+            leading: Icon(Icons.account_circle),
+            title: Text('Account Management'),
+          ),
+        ],
+      ),
     );
   }
 }
