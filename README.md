@@ -1,3 +1,4 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f5e70395-4c34-4b5a-a017-cc0b526477e6/deploy-status)](https://app.netlify.com/sites/dot-todo/deploys)
 # dot_to_do_list
 
 A new Flutter project.
