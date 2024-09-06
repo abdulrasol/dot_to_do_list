@@ -1,8 +1,7 @@
-
-
 import 'package:dot_to_do_list/controllers/data_controller.dart';
 import 'package:dot_to_do_list/models/task_model.dart';
 import 'package:dot_to_do_list/controllers/ui_controller.dart';
+import 'package:dot_to_do_list/ui/widgets/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,12 +17,6 @@ class AddTaskWidget extends StatelessWidget {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController titleText = TextEditingController();
     TextEditingController contenctText = TextEditingController();
-    InputDecoration textDecoration = const InputDecoration(
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        borderSide: BorderSide(width: 2, color: Colors.black54),
-      ),
-    );
 
     Priority priority = Priority.medium;
 
@@ -34,7 +27,7 @@ class AddTaskWidget extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
-              decoration: textDecoration.copyWith(
+              decoration: inputTextDecoration.copyWith(
                 label: const Text('Task Title'),
               ),
               controller: titleText,
@@ -51,7 +44,7 @@ class AddTaskWidget extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             TextFormField(
-              decoration: textDecoration.copyWith(
+              decoration: inputTextDecoration.copyWith(
                 label: const Text('Task Description'),
               ),
               controller: contenctText,
