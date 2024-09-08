@@ -94,8 +94,17 @@ class LoginWidget extends StatelessWidget {
                 controller: btnController,
                 onPressed: () async {
                   if (formKey.currentState!.validate()) {
-                    var a = await dataController.login(
+                    var login = await dataController.login(
                         email: email.text, password: password.text);
+                    if (login['state']) {
+                      btnController.success();
+                      await Future.delayed(const Duration(milliseconds: 3));
+                      Get.back();
+                    } else {
+                      uiController.loginMsg.value = login['msg'];
+                      uiController.loginState.value = login['state'];
+                      btnController.error();
+                    }
                   } else {
                     btnController.stop();
                   }
@@ -107,6 +116,9 @@ class LoginWidget extends StatelessWidget {
                   ),
                 ),
               ),
+              uiController.loginState.value
+                  ? const SizedBox.shrink()
+                  : Text(uiController.loginMsg.value),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

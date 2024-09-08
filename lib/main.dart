@@ -1,11 +1,19 @@
+import 'package:dot_to_do_list/ui/home.dart';
 import 'package:dot_to_do_list/ui/settings.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
   // For
+  SharedPreferences instance = await SharedPreferences.getInstance();
+  if (instance.getBool('login') != null) {
+    print('login');
+  } else {
+    print('need to auth');
+  }
   initializeDateFormatting();
   runApp(const App());
 }
@@ -41,7 +49,7 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const Settings(),
+      home: const Home(),
     );
   }
 }

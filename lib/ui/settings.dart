@@ -113,21 +113,23 @@ class Settings extends StatelessWidget {
               // await dataController.login(
               //     email: 'iraq.rsol@gmail.com', password: '11223344@');
               //await dataController.user.value.deleteSessions();
-              var s = await dataController.user.value.get();
-              print(s.toMap());
-
+              //   dataController.user.value =
+              //      await dataController.account.value.get();
               // print(s.isBlank);
               //print(await dataController.user.value.client.setSession('value'));
               //print(await dataController.session.value);
               // Handle data sync settings
+              dataController.sharedInstance.setBool('login', true);
             },
           ),
-          dataController.user.value.isBlank!
+          dataController.sharedInstance.containsKey('login')
               ? ListTile(
                   leading: const Icon(Icons.sync),
-                  title: const Text('Data Sync'),
-                  subtitle: const Text('Manage cloud sync settings'),
-                  onTap: () {},
+                  title: const Text('Logout'),
+                  subtitle: const Text('Stop Cloud SSync'),
+                  onTap: () async {
+                    await dataController.logout();
+                  },
                 )
               : const SizedBox.shrink(),
         ],
