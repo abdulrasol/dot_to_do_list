@@ -19,5 +19,4 @@ class UiController extends GetxController {
   var passwordVisiblty = false.obs;
   var haveAccount = true.obs;
   var loginMsg = ''.obs;
-  var loginState = false.obs;
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dot_to_do_list/controllers/data_controller.dart';
 import 'package:dot_to_do_list/controllers/ui_controller.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +19,7 @@ class LoginWidget extends StatelessWidget {
     var password = TextEditingController();
     var comfirmPassword = TextEditingController();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
+    uiController.loginMsg.value = '';
     return Padding(
       padding: const EdgeInsets.all(8),
       child: AnimatedContainer(
@@ -42,29 +44,30 @@ class LoginWidget extends StatelessWidget {
                   }
                   return null;
                 },
+                onChanged: (v) => btnController.reset(),
               ),
               const SizedBox(height: 15),
               Obx(
                 () => TextFormField(
-                  decoration: inputTextDecoration.copyWith(
-                      label: const Text('Password'),
-                      prefixIcon: const Icon(Icons.password),
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            uiController.passwordVisiblty.toggle();
-                          },
-                          icon: Icon(uiController.passwordVisiblty.value
-                              ? Icons.visibility_off
-                              : Icons.visibility))),
-                  controller: password,
-                  obscureText: !uiController.passwordVisiblty.value,
-                  validator: (title) {
-                    if (title!.isEmpty) {
-                      return 'this record is required';
-                    }
-                    return null;
-                  },
-                ),
+                    decoration: inputTextDecoration.copyWith(
+                        label: const Text('Password'),
+                        prefixIcon: const Icon(Icons.password),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              uiController.passwordVisiblty.toggle();
+                            },
+                            icon: Icon(uiController.passwordVisiblty.value
+                                ? Icons.visibility_off
+                                : Icons.visibility))),
+                    controller: password,
+                    obscureText: !uiController.passwordVisiblty.value,
+                    validator: (title) {
+                      if (title!.isEmpty) {
+                        return 'this record is required';
+                      }
+                      return null;
+                    },
+                    onChanged: (v) => btnController.reset()),
               ),
               const SizedBox(height: 15),
               Obx(
@@ -101,9 +104,8 @@ class LoginWidget extends StatelessWidget {
                       await Future.delayed(const Duration(milliseconds: 3));
                       Get.back();
                     } else {
-                      uiController.loginMsg.value = login['msg'];
-                      uiController.loginState.value = login['state'];
                       btnController.error();
+                      uiController.loginMsg.value = login['msg'];
                     }
                   } else {
                     btnController.stop();
@@ -116,9 +118,12 @@ class LoginWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              uiController.loginState.value
-                  ? const SizedBox.shrink()
-                  : Text(uiController.loginMsg.value),
+              const SizedBox(height: 15),
+              Obx(
+                () => uiController.loginMsg.value.isEmpty
+                    ? const SizedBox.shrink()
+                    : Text(uiController.loginMsg.value),
+              ),
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

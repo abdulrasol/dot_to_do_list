@@ -3,7 +3,6 @@ import 'package:dot_to_do_list/models/task_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:appwrite/appwrite.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DataController extends GetxController {
@@ -32,7 +31,9 @@ class DataController extends GetxController {
         'state': true,
       };
     } catch (e) {
-      return {'state': false, 'msg': e.toString()};
+      print(e.toString().split(', ')[1]);
+
+      return {'state': false, 'msg': e.toString().split(', ')[1]};
     }
   }
 
