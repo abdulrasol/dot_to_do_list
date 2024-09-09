@@ -122,16 +122,18 @@ class Settings extends StatelessWidget {
               dataController.sharedInstance.setBool('login', true);
             },
           ),
-          dataController.sharedInstance.containsKey('login')
-              ? ListTile(
-                  leading: const Icon(Icons.sync),
-                  title: const Text('Logout'),
-                  subtitle: const Text('Stop Cloud SSync'),
-                  onTap: () async {
-                    await dataController.logout();
-                  },
-                )
-              : const SizedBox.shrink(),
+          Obx(
+            () => dataController.loginState.value
+                ? ListTile(
+                    leading: const Icon(Icons.logout),
+                    title: const Text('Logout'),
+                    subtitle: const Text('Stop Cloud Sync'),
+                    onTap: () async {
+                      await dataController.logout();
+                    },
+                  )
+                : const SizedBox.shrink(),
+          ),
         ],
       ),
     );

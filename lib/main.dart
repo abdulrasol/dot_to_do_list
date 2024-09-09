@@ -1,3 +1,4 @@
+import 'package:dot_to_do_list/controllers/data_controller.dart';
 import 'package:dot_to_do_list/ui/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,10 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 void main() async {
   // For
   SharedPreferences instance = await SharedPreferences.getInstance();
+  DataController dataController = Get.put(DataController());
   if (instance.getBool('login') != null) {
-    print('login');
-  } else {
-    print('need to auth');
+    dataController.loginState.value = true;
   }
   initializeDateFormatting();
   runApp(const App());

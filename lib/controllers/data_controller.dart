@@ -12,7 +12,7 @@ class DataController extends GetxController {
   late Rx<Session> session;
   late Rx<User> user;
   late SharedPreferences sharedInstance;
-
+  var loginState = false.obs;
   // auth
   Future<Map<String, dynamic>> login(
       {required String email, required String password}) async {
@@ -26,6 +26,7 @@ class DataController extends GetxController {
           session.value.$id,
         );
         user = Rx<User>(await account.value.get());
+        loginState.value = true;
       }
       return {
         'state': true,
@@ -42,6 +43,7 @@ class DataController extends GetxController {
       await account.value.deleteSessions();
       sharedInstance.remove('login');
       sharedInstance.remove('session');
+      loginState.value = false;
       return true;
     } catch (e) {
       if (kDebugMode) {
@@ -50,6 +52,9 @@ class DataController extends GetxController {
     }
     return false;
   }
+
+  // update user config
+  Future<void> updateUserConfig() async {}
 
   @override
   void onInit() async {
