@@ -11,7 +11,7 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     // Controller for managing state (e.g., notifications, theme, language)
     SettingsController settingsController = Get.put(SettingsController());
-    DataController dataController = Get.put(DataController());
+    DataController dataController = Get.find();
 
     return Scaffold(
       appBar: AppBar(
@@ -23,23 +23,13 @@ class Settings extends StatelessWidget {
           // Theme and Languages selection
           const Text('Theme and Languages',
               style: TextStyle(fontWeight: FontWeight.bold)),
-          ListTile(
-            leading: const Icon(Icons.brightness_6),
-            title: const Text('Theme'),
-            trailing: Obx(() => DropdownButton<String>(
-                  value: settingsController.selectedTheme.value,
-                  items: ['Light', 'Dark'].map((String theme) {
-                    return DropdownMenuItem(
-                      value: theme,
-                      child: Text(theme),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    if (newValue != null) {
-                      settingsController.selectedTheme.value = newValue;
-                    }
-                  },
-                )),
+          Obx(
+            () => SwitchListTile(
+                title: const Text('Dark Mode'),
+                value: settingsController.isDarkMode.value,
+                onChanged: (isDarkMode) {
+                  settingsController.toggleTheme(isDarkMode);
+                }),
           ),
 
           // Language selection
@@ -48,19 +38,20 @@ class Settings extends StatelessWidget {
             title: const Text('Language'),
             trailing: Obx(() => DropdownButton<String>(
                   value: settingsController.selectedLanguage.value,
-                  items: ['English', 'Arabic'].map((String language) {
+                  items: ['English-en', 'العربية-ar'].map((String language) {
                     return DropdownMenuItem(
-                      value: language,
-                      child: Text(language),
+                      value: language.split('-')[1],
+                      child: Text(language.split('-')[0].tr),
                     );
                   }).toList(),
                   onChanged: (String? newValue) {
                     if (newValue != null) {
-                      settingsController.selectedLanguage.value = newValue;
+                      settingsController.changeUserLangauge(newValue);
                     }
                   },
                 )),
           ),
+
           const Divider(),
           const SizedBox(height: 15),
           // Notifications toggle
@@ -119,7 +110,6 @@ class Settings extends StatelessWidget {
               //print(await dataController.user.value.client.setSession('value'));
               //print(await dataController.session.value);
               // Handle data sync settings
-              dataController.sharedInstance.setBool('login', true);
             },
           ),
           Obx(

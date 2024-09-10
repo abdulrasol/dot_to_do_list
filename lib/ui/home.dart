@@ -12,7 +12,7 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DataController dataController = Get.put(DataController());
+    DataController dataController = Get.find();
     UiController uiController = Get.put(UiController());
     return Scaffold(
       appBar: AppBar(

@@ -1,19 +1,20 @@
 import 'package:dot_to_do_list/controllers/data_controller.dart';
+import 'package:dot_to_do_list/controllers/settings_controller.dart';
 import 'package:dot_to_do_list/ui/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   // For
-  SharedPreferences instance = await SharedPreferences.getInstance();
+  initializeDateFormatting();
+  await GetStorage.init();
   DataController dataController = Get.put(DataController());
-  if (instance.getBool('login') != null) {
+  if (await dataController.box.read('session') != null) {
     dataController.loginState.value = true;
   }
-  initializeDateFormatting();
   runApp(const App());
 }
 
@@ -23,10 +24,11 @@ class App extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SettingsController settingsController = Get.put(SettingsController());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Dot to do list',
-      //  locale: const Locale('ar'),
+      locale: Locale(settingsController.box.read('lang') ?? 'en'),
       theme: ThemeData(
         textTheme: GoogleFonts.rubikTextTheme(),
 
@@ -48,6 +50,11 @@ class App extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
+      darkTheme: ThemeData.dark(useMaterial3: true),
+      themeMode: settingsController.isDarkMode.value
+          ? ThemeMode.dark
+          : ThemeMode.light,
+      // translations: Translations.,
       home: const Home(),
     );
   }
