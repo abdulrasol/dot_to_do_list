@@ -31,13 +31,18 @@ class TaskModel {
       'id': id,
       'title': title,
       'description': description,
-      'dueDate': dueDate,
+      //'dueDate': dueDate,
+      'dueDate': dueDate.toIso8601String(),
       'isCompleted': isCompleted,
-      'priority': priority,
+      // 'priority': priority,
+      'priority': priority.index,
       'hasReminder': hasReminder,
-      'reminderTime': reminderTime,
-      'createdAt': createdAt,
-      'updatedAt': updatedAt,
+      //'reminderTime': reminderTime,
+      'reminderTime': reminderTime?.toIso8601String(),
+      //'createdAt': createdAt,
+      'createdAt': createdAt.toIso8601String(),
+      //'updatedAt': updatedAt,
+      'updatedAt': updatedAt?.toIso8601String(),
     };
   }
 
@@ -47,7 +52,25 @@ class TaskModel {
       id: task['id'],
       title: task['title'],
       description: task['description'],
-      dueDate: task['dueDate'],
+      dueDate: DateTime.parse(task['dueDate']),
+      isCompleted: task['isCompleted'],
+      priority: Priority.values[task['priority']],
+      hasReminder: task['hasReminder'],
+      reminderTime: task['reminderTime'] != null
+          ? DateTime.parse(task['reminderTime'])
+          : null,
+      createdAt: DateTime.parse(task['createdAt']),
+      updatedAt:
+          task['updatedAt'] != null ? DateTime.parse(task['updatedAt']) : null,
+    );
+  }
+
+  static TaskModel fromMap(Map task) {
+    return TaskModel(
+      id: task['id'],
+      title: task['title'],
+      description: task['description'],
+      dueDate: DateTime.parse(task['dueDate']),
       isCompleted: task['isCompleted'],
       priority: task['priority'],
       hasReminder: task['hasReminder'],

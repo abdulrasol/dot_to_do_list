@@ -1,6 +1,7 @@
 import 'package:dot_to_do_list/controllers/data_controller.dart';
 import 'package:dot_to_do_list/models/task_model.dart';
 import 'package:dot_to_do_list/controllers/ui_controller.dart';
+import 'package:dot_to_do_list/services/databsae_services.dart';
 import 'package:dot_to_do_list/ui/widgets/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -170,7 +171,7 @@ class AddTaskWidget extends StatelessWidget {
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      print(dataController.toDolist);
+                      print(dataController.tasks);
                       Get.back();
                     },
                     child: const Text('Cancel')),
@@ -185,7 +186,7 @@ class AddTaskWidget extends StatelessWidget {
                             priority: priority,
                             createdAt: DateTime.now(),
                             hasReminder: uiController.hasReminder.value);
-                        dataController.toDolist.add(task);
+                        dataController.saveTask(task);
                         Get.back();
                       }
                     },

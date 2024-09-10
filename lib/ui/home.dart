@@ -29,9 +29,10 @@ class Home extends StatelessWidget {
         padding: const EdgeInsets.all(8),
         child: Obx(
           () => ListView(
-              children: dataController.toDolist
-                  .map((task) => TaskWidget(task: task))
-                  .toList()),
+            children: dataController.tasks
+                .map((task) => TaskWidget(task: task))
+                .toList(),
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

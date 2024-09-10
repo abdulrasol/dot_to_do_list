@@ -11,10 +11,14 @@ class DatabsaeServices {
         .setEndpoint('https://cloud.appwrite.io/v1')
         .setProject('66d40908001cfa0aae91')
         .setSelfSigned(status: true);
+    box.listenKey('tasks', (value) {
+      print(value);
+    });
   }
 
   void saveToDo(TaskModel todo) {
-    List todoList = box.read('todo') ?? [];
+    List<Map> todoList = box.read('todo') ?? [];
     todoList.add(todo.toMap());
+    box.write('tasks', todoList);
   }
 }
