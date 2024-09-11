@@ -79,4 +79,14 @@ class DataController extends GetxController {
     tempTasks.add(jsonEncode(todo.toMap()));
     box.write('tasks', tempTasks);
   }
+
+  void compeletetask(TaskModel task) {
+    TaskModel tempTask = tasks.firstWhere((item) => task == item);
+    tempTask.isCompleted = !tempTask.isCompleted;
+    var index = tasks.indexOf(task);
+    tasks[index] = task;
+    box.remove('tasks');
+    box.write('tasks', tasks.map((i) => jsonEncode(i.toMap())));
+    
+  }
 }
