@@ -136,9 +136,7 @@ class AddTaskWidget extends StatelessWidget {
                             TimeOfDay? picked = await showTimePicker(
                                 context: context,
                                 initialTime: uiController.reminderTime.value);
-
-                            if (picked != null &&
-                                picked != uiController.reminderTime.value) {
+                            if (picked != null) {
                               uiController.reminderTime.value = picked;
                             }
                           },
@@ -178,13 +176,17 @@ class AddTaskWidget extends StatelessWidget {
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
                         var task = TaskModel(
-                            id: '1',
-                            title: titleText.text,
-                            description: contenctText.text,
-                            dueDate: uiController.dueDate.value,
-                            priority: priority,
-                            createdAt: DateTime.now(),
-                            hasReminder: uiController.hasReminder.value);
+                          id: '1',
+                          title: titleText.text,
+                          description: contenctText.text,
+                          dueDate: uiController.dueDate.value,
+                          priority: priority,
+                          reminderTime: uiController.hasReminder.value
+                              ? uiController.reminderTime.value
+                              : null,
+                          createdAt: DateTime.now(),
+                          hasReminder: uiController.hasReminder.value,
+                        );
                         dataController.saveTask(task);
                         Get.back();
                       }

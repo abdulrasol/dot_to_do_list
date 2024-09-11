@@ -79,8 +79,29 @@ class _TaskWidgetState extends State<TaskWidget> {
                                     : FontStyle.normal,
                               ),
                             ),
+                            // Text.rich(
+                            //   TextSpan(children: [
+                            //     TextSpan(
+                            //       text: uiController.dateFormat
+                            //           .format(widget.task.dueDate),
+                            //     ),
+                            //     TextSpan(text: ' - '),
+                            //     TextSpan(
+                            //         text: widget.task.hasReminder
+                            //             ? widget.task.reminderTime!
+                            //                 .format(context)
+                            //             : ''),
+                            //     // )
+                            //   ]),
+                            //   style: TextStyle(
+                            //     fontWeight: FontWeight.normal,
+                            //     fontStyle: widget.task.isCompleted
+                            //         ? FontStyle.italic
+                            //         : FontStyle.normal,
+                            //   ),
+                            // ),
                             Text(
-                              uiController.timeFormat
+                              uiController.dateFormat
                                   .format(widget.task.dueDate),
                               style: TextStyle(
                                 fontWeight: FontWeight.normal,
@@ -100,6 +121,9 @@ class _TaskWidgetState extends State<TaskWidget> {
                           Icon(widget.task.hasReminder
                               ? Icons.alarm
                               : Icons.alarm_off),
+                          // Text(widget.task.hasReminder
+                          //     ? widget.task.reminderTime!.format(context)
+                          //     : ''),
                           Text(
                             '${widget.task.priority.toString().split('.')[1][0].capitalize}',
                             style: const TextStyle(
