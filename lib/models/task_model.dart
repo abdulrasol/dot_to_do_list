@@ -72,11 +72,14 @@ class TaskModel {
       description: task['description'],
       dueDate: DateTime.parse(task['dueDate']),
       isCompleted: task['isCompleted'],
-      priority: task['priority'],
+      priority: Priority.values[task['priority']],
       hasReminder: task['hasReminder'],
-      reminderTime: task['reminderTime'],
-      createdAt: task['createdAt'],
-      updatedAt: task['updatedAt'],
+      reminderTime: task['reminderTime'] != null
+          ? DateTime.parse(task['reminderTime'])
+          : null,
+      createdAt: DateTime.parse(task['createdAt']),
+      updatedAt:
+          task['updatedAt'] != null ? DateTime.parse(task['updatedAt']) : null,
     );
   }
 }

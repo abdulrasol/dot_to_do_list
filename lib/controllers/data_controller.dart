@@ -57,23 +57,22 @@ class DataController extends GetxController {
         .setSelfSigned(status: true);
     account = Rx<Account>(Account(client));
     box.listenKey('tasks', (todoList) {
-      print('object');
-      todoList.map((todo) {
-        if (kDebugMode) {
-          // print(todo.runtimeType);
-        }
-      });
+      List tempList = box.read('tasks') ?? [];
+      List<TaskModel> temList1 = tempList.map((i) {
+        return TaskModel.fromMap(jsonDecode(i));
+      }).toList();
+      tasks.value = temList1;
     });
+    List tempList = box.read('tasks') ?? [];
+    List<TaskModel> temList1 = tempList.map((i) {
+      return TaskModel.fromMap(jsonDecode(i));
+    }).toList();
+    tasks.value = temList1;
   }
 
   void saveTask(TaskModel todo) {
     List tempTasks = box.read('tasks') ?? [];
     tempTasks.add(jsonEncode(todo.toMap()));
     box.write('tasks', tempTasks);
-    List tempList = box.read('tasks').map((task) {
-      tasks.add(TaskModel.fromJson(task));
-    }).toList();
-    //box.remove('tasks');
-    //print(tempList.map((i) => print(i.toMap())));
   }
 }

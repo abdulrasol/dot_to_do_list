@@ -1,7 +1,6 @@
 import 'package:dot_to_do_list/controllers/data_controller.dart';
 import 'package:dot_to_do_list/models/task_model.dart';
 import 'package:dot_to_do_list/controllers/ui_controller.dart';
-import 'package:dot_to_do_list/services/databsae_services.dart';
 import 'package:dot_to_do_list/ui/widgets/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,7 +12,7 @@ class AddTaskWidget extends StatelessWidget {
   const AddTaskWidget({super.key});
   @override
   Widget build(BuildContext context) {
-    UiController uiController = Get.find();
+    UiController uiController = Get.put(UiController());
     DataController dataController = Get.find();
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController titleText = TextEditingController();

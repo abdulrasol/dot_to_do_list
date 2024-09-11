@@ -1,4 +1,3 @@
-import 'package:dot_to_do_list/controllers/ui_controller.dart';
 import 'package:dot_to_do_list/ui/settings.dart';
 import 'package:dot_to_do_list/ui/widgets/add_task_widget.dart';
 import 'package:dot_to_do_list/ui/widgets/task_widget.dart';
@@ -13,7 +12,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DataController dataController = Get.find();
-    UiController uiController = Get.put(UiController());
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Tasks'),
@@ -23,6 +22,11 @@ class Home extends StatelessWidget {
                 Get.to(() => const Settings());
               },
               icon: const Icon(Icons.settings)),
+          IconButton(
+              onPressed: () {
+                dataController.box.remove('tasks');
+              },
+              icon: const Icon(Icons.clear_all)),
         ],
       ),
       body: Padding(
