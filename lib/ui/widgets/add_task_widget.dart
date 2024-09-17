@@ -168,22 +168,32 @@ class AddTaskWidget extends StatelessWidget {
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      print(dataController.tasks);
+                      // print(dataController.tasks);
                       Get.back();
                     },
                     child: const Text('Cancel')),
                 ElevatedButton(
                     onPressed: () async {
                       if (formKey.currentState!.validate()) {
+                        // فحص اذا يوجد وقت تذكير يتم خزن القيم في تاريخ الاستحقاق
+                        if (uiController.hasReminder.value) {
+                          uiController.dueDate.value = DateTime(
+                            uiController.dueDate.value.year,
+                            uiController.dueDate.value.month,
+                            uiController.dueDate.value.day,
+                            uiController.reminderTime.value.hour,
+                            uiController.reminderTime.value.minute,
+                          );
+                        }
                         var task = TaskModel(
                           id: '1',
                           title: titleText.text,
                           description: contenctText.text,
                           dueDate: uiController.dueDate.value,
                           priority: priority,
-                          reminderTime: uiController.hasReminder.value
-                              ? uiController.reminderTime.value
-                              : null,
+                          // reminderTime: uiController.hasReminder.value
+                          //     ? uiController.reminderTime.value
+                          //     : null,
                           createdAt: DateTime.now(),
                           hasReminder: uiController.hasReminder.value,
                         );

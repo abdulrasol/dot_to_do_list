@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 class TaskModel {
   String id; // معرف فريد للمهمة
   String title; // عنوان المهمة
@@ -10,7 +8,7 @@ class TaskModel {
   bool isCompleted; // حالة اكتمال المهمة
   Priority priority; // أولوية المهمة (مرتفعة، متوسطة، منخفضة)
   bool hasReminder; // هل تم تفعيل التذكير
-  TimeOfDay? reminderTime; // وقت التذكير (اختياري إذا كان hasReminder = true)
+  // TimeOfDay? reminderTime; // وقت التذكير (اختياري إذا كان hasReminder = true)
   DateTime createdAt; // وقت إنشاء المهمة
   DateTime? updatedAt; // وقت آخر تعديل للمهمة (اختياري)
 
@@ -23,7 +21,7 @@ class TaskModel {
     this.isCompleted = false,
     this.priority = Priority.medium,
     this.hasReminder = false,
-    this.reminderTime,
+    // this.reminderTime,
     required this.createdAt,
     this.updatedAt,
   });
@@ -40,8 +38,8 @@ class TaskModel {
       'priority': priority.index,
       'hasReminder': hasReminder,
       //'reminderTime': reminderTime,
-      'reminderTime':
-          hasReminder ? '${reminderTime!.hour}:${reminderTime!.minute}' : null,
+      // 'reminderTime':
+      //     hasReminder ? '${reminderTime!.hour}:${reminderTime!.minute}' : null,
       //'createdAt': createdAt,
       'createdAt': createdAt.toIso8601String(),
       //'updatedAt': updatedAt,
@@ -59,11 +57,11 @@ class TaskModel {
       isCompleted: task['isCompleted'],
       priority: Priority.values[task['priority']],
       hasReminder: task['hasReminder'],
-      reminderTime: task['reminderTime'] != null
-          ? TimeOfDay(
-              hour: task['reminderTime'].split(':')[0],
-              minute: task['reminderTime'].split(':')[1])
-          : null,
+      // reminderTime: task['reminderTime'] != null
+      //     ? TimeOfDay(
+      //         hour: task['reminderTime'].split(':')[0],
+      //         minute: task['reminderTime'].split(':')[1])
+      //     : null,
       createdAt: DateTime.parse(task['createdAt']),
       updatedAt:
           task['updatedAt'] != null ? DateTime.parse(task['updatedAt']) : null,
@@ -79,11 +77,11 @@ class TaskModel {
       isCompleted: task['isCompleted'],
       priority: Priority.values[task['priority']],
       hasReminder: task['hasReminder'],
-      reminderTime: task['reminderTime'] != null
-          ? TimeOfDay(
-              hour: int.parse(task['reminderTime'].split(':')[0]),
-              minute: int.parse(task['reminderTime'].split(':')[1]))
-          : null,
+      // reminderTime: task['reminderTime'] != null
+      //     ? TimeOfDay(
+      //         hour: int.parse(task['reminderTime'].split(':')[0]),
+      //         minute: int.parse(task['reminderTime'].split(':')[1]))
+      //     : null,
       createdAt: DateTime.parse(task['createdAt']),
       updatedAt:
           task['updatedAt'] != null ? DateTime.parse(task['updatedAt']) : null,

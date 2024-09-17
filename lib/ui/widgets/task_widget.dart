@@ -1,7 +1,7 @@
-import 'package:dot_to_do_list/controllers/data_controller.dart';
 import 'package:dot_to_do_list/models/task_model.dart';
 import 'package:dot_to_do_list/controllers/ui_controller.dart';
 import 'package:dot_to_do_list/ui/add_edit_task.dart';
+import 'package:dot_to_do_list/ui/task_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -20,11 +20,11 @@ class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
     UiController uiController = Get.put(UiController());
-    DataController dataController = Get.find();
+    //  DataController dataController = Get.find();
     //var format = DateFormat.yMd('ar');
     return GestureDetector(
       onLongPress: () {
-        Get.to(() => AddEditTaskPage(task: widget.task));
+        Get.to(() => TaskPage(task: widget.task));
       },
       child: Card(
         color: widget.task.isCompleted ? Colors.white54 : Colors.white,

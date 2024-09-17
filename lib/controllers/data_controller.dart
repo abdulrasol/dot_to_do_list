@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:appwrite/appwrite.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:intl/intl.dart';
+
 
 class DataController extends GetxController {
   Client client = Client();
@@ -66,15 +66,15 @@ class DataController extends GetxController {
     });
     List tempList = box.read('tasks') ?? [];
     List<TaskModel> temList1 = tempList.map((i) {
-      print(i);
+     
       return TaskModel.fromMap(jsonDecode(i));
     }).toList();
     tasks.value = temList1;
   }
 
   void saveTask(TaskModel todo) {
-    var dateFormat = DateFormat.yMd('ar');
-    print(todo.toMap());
+    
+   
     List tempTasks = box.read('tasks') ?? [];
     tempTasks.add(jsonEncode(todo.toMap()));
     box.write('tasks', tempTasks);
