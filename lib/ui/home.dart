@@ -2,6 +2,7 @@ import 'package:dot_to_do_list/ui/settings.dart';
 import 'package:dot_to_do_list/ui/widgets/add_task_widget.dart';
 import 'package:dot_to_do_list/ui/widgets/task_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
 import '../controllers/data_controller.dart';
@@ -27,6 +28,26 @@ class Home extends StatelessWidget {
                 dataController.box.remove('tasks');
               },
               icon: const Icon(Icons.clear_all)),
+          IconButton(
+              onPressed: () async {
+                const LinuxInitializationSettings linuxInitializationSettings =
+                    LinuxInitializationSettings(
+                  defaultActionName: 'test',
+                );
+                const InitializationSettings initializationSettings =
+                    InitializationSettings(
+                  linux: linuxInitializationSettings,
+                );
+                final FlutterLocalNotificationsPlugin
+                    flutterLocalNotificationsPlugin =
+                    FlutterLocalNotificationsPlugin();
+                flutterLocalNotificationsPlugin
+                    .initialize(initializationSettings);
+
+                flutterLocalNotificationsPlugin.show(
+                    1, 'title', DateTime.now().toLocal().toString(), null);
+              },
+              icon: const Icon(Icons.notifications_active)),
         ],
       ),
       body: Padding(
