@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dot_to_do_list/ui/settings.dart';
 import 'package:dot_to_do_list/ui/widgets/add_task_widget.dart';
 import 'package:dot_to_do_list/ui/widgets/task_widget.dart';
@@ -30,35 +32,64 @@ class Home extends StatelessWidget {
               icon: const Icon(Icons.clear_all)),
           IconButton(
               onPressed: () async {
-                const LinuxInitializationSettings linuxInitializationSettings =
-                    LinuxInitializationSettings(
-                  defaultActionName: 'test',
-                );
-                const InitializationSettings initializationSettings =
-                    InitializationSettings(
-                  linux: linuxInitializationSettings,
-                );
-                final FlutterLocalNotificationsPlugin
-                    flutterLocalNotificationsPlugin =
-                    FlutterLocalNotificationsPlugin();
-                flutterLocalNotificationsPlugin
-                    .initialize(initializationSettings);
+                if (Platform.isWindows) {
+                  // var hasPermission = await QuickNotify.hasPermission();
+                  //print('hasPermission $hasPermission');
+                } else {
+                  const LinuxInitializationSettings
+                      linuxInitializationSettings = LinuxInitializationSettings(
+                    defaultActionName: 'test',
+                  );
 
-                flutterLocalNotificationsPlugin.show(
-                    1, 'title', DateTime.now().toLocal().toString(), null);
+                  const InitializationSettings initializationSettings =
+                      InitializationSettings(
+                    linux: linuxInitializationSettings,
+                  );
+                  final FlutterLocalNotificationsPlugin
+                      flutterLocalNotificationsPlugin =
+                      FlutterLocalNotificationsPlugin();
+                  flutterLocalNotificationsPlugin
+                      .initialize(initializationSettings);
+
+                  flutterLocalNotificationsPlugin.show(
+                      1, 'title', DateTime.now().toLocal().toString(), null);
+                }
               },
               icon: const Icon(Icons.notifications_active)),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Obx(
-          () => ListView(
-            children: dataController.tasks
-                .map((task) => TaskWidget(task: task))
-                .toList(),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 40,
+            width: double.infinity,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              //   padding: EdgeInsets.all(5),
+              children: List.generate(7, (index) {
+                return DateTime.now().add(Duration(days: index));
+              }).map((day) {
+                return CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.amber,
+                  child: Text(_getDayName(day)),
+                );
+              }).toList(),
+            ),
           ),
-        ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Obx(
+                () => ListView(
+                  children: dataController.tasks
+                      .map((task) => TaskWidget(task: task))
+                      .toList(),
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
@@ -75,5 +106,26 @@ class Home extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
     );
+  }
+}
+
+String _getDayName(DateTime date) {
+  switch (date.weekday) {
+    case DateTime.monday:
+      return 'Mon';
+    case DateTime.tuesday:
+      return 'Tue';
+    case DateTime.wednesday:
+      return 'Wed';
+    case DateTime.thursday:
+      return 'Thu';
+    case DateTime.friday:
+      return 'Fri';
+    case DateTime.saturday:
+      return 'Sat';
+    case DateTime.sunday:
+      return 'Sun';
+    default:
+      return '';
   }
 }
