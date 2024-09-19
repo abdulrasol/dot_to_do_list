@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dot_to_do_list/services/databsae_services.dart';
 import 'package:dot_to_do_list/ui/settings.dart';
 import 'package:dot_to_do_list/ui/widgets/add_task_widget.dart';
 import 'package:dot_to_do_list/ui/widgets/task_widget.dart';
@@ -15,7 +16,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DataController dataController = Get.find();
-
+    DatabsaeServices databsaeServices = DatabsaeServices();
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Tasks'),
@@ -26,8 +27,12 @@ class Home extends StatelessWidget {
               },
               icon: const Icon(Icons.settings)),
           IconButton(
-              onPressed: () {
-                dataController.box.remove('tasks');
+              onPressed: () async {
+                if (dataController.loginState.value) {
+                  await databsaeServices.getTasks();
+                } else {
+                  dataController.box.remove('tasks');
+                }
               },
               icon: const Icon(Icons.clear_all)),
           IconButton(

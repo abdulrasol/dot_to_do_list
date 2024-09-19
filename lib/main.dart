@@ -14,6 +14,7 @@ void main() async {
   DataController dataController = Get.put(DataController());
   if (await dataController.box.read('session') != null) {
     dataController.loginState.value = true;
+    dataController.initUser();
   }
   runApp(const App());
 }

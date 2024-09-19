@@ -11,6 +11,7 @@ class TaskModel {
   // TimeOfDay? reminderTime; // وقت التذكير (اختياري إذا كان hasReminder = true)
   DateTime createdAt; // وقت إنشاء المهمة
   DateTime? updatedAt; // وقت آخر تعديل للمهمة (اختياري)
+  String? userID; // وقت آخر تعديل للمهمة (اختياري)
 
   // Constructor
   TaskModel({
@@ -24,6 +25,7 @@ class TaskModel {
     // this.reminderTime,
     required this.createdAt,
     this.updatedAt,
+    this.userID,
   });
 
   Map<String, dynamic> toMap() {
@@ -44,6 +46,7 @@ class TaskModel {
       'createdAt': createdAt.toIso8601String(),
       //'updatedAt': updatedAt,
       'updatedAt': updatedAt?.toIso8601String(),
+      'userID': userID,
     };
   }
 
@@ -65,6 +68,7 @@ class TaskModel {
       createdAt: DateTime.parse(task['createdAt']),
       updatedAt:
           task['updatedAt'] != null ? DateTime.parse(task['updatedAt']) : null,
+      userID: task['userID'],
     );
   }
 
@@ -85,6 +89,7 @@ class TaskModel {
       createdAt: DateTime.parse(task['createdAt']),
       updatedAt:
           task['updatedAt'] != null ? DateTime.parse(task['updatedAt']) : null,
+      userID: task['userID'],
     );
   }
 }
