@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:appwrite/models.dart';
 import 'package:dot_to_do_list/models/task_model.dart';
-import 'package:dot_to_do_list/services/databsae_services.dart';
+import 'package:dot_to_do_list/services/database_services.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:appwrite/appwrite.dart';
@@ -10,12 +10,13 @@ import 'package:get_storage/get_storage.dart';
 
 class DataController extends GetxController {
   Client client = Client();
-  DatabsaeServices databsaeServices = DatabsaeServices();
+  late AbstractDataBase databsaeServices;
   RxList<TaskModel> tasks = RxList.empty();
   late Rx<Account> account;
   late Rx<Session> session;
   late Rx<User> user;
-  var loginState = false.obs;
+  var logined = false.obs;
+  final loginKey = 'login';
   var box = GetStorage();
 
   // auth
@@ -27,7 +28,7 @@ class DataController extends GetxController {
       if (session.value.current) {
         box.write('session', session.value.$id);
         user = Rx<User>(await account.value.get());
-        loginState.value = true;
+        updateLoginState(true);
       }
       return {
         'state': true,
@@ -41,7 +42,8 @@ class DataController extends GetxController {
     try {
       await account.value.deleteSession(sessionId: box.read('session'));
       box.remove('session');
-      loginState.value = false;
+      updateLoginState(false);
+
       return true;
     } catch (e) {
       if (kDebugMode) {
@@ -58,22 +60,16 @@ class DataController extends GetxController {
         .setProject('66d40908001cfa0aae91')
         .setSelfSigned(status: true);
     account = Rx<Account>(Account(client));
-    if (await box.read('session') != null) {
-      tasks.value = await databsaeServices.getTasks();
+    if (loginState()) {
+      databsaeServices = OnlineDataBase();
     } else {
-      box.listenKey('tasks', (todoList) {
-        List tempList = box.read('tasks') ?? [];
-        List<TaskModel> temList1 = tempList.map((i) {
-          return TaskModel.fromMap(jsonDecode(i));
-        }).toList();
-        tasks.value = temList1;
-      });
-      List tempList = box.read('tasks') ?? [];
-      List<TaskModel> temList1 = tempList.map((i) {
-        return TaskModel.fromMap(jsonDecode(i));
-      }).toList();
-      tasks.value = temList1;
+      databsaeServices = LocalDataBase();
+      print('local');
     }
+    tasks.value = await databsaeServices.getTasks();
+    box.listenKey('tasks', (temp) async {
+      tasks.value = await databsaeServices.getTasks();
+    });
     super.onInit();
   }
 
@@ -92,7 +88,17 @@ class DataController extends GetxController {
     box.write('tasks', tasks.map((i) => jsonEncode(i.toMap())));
   }
 
-  void initUser() async {
-    user = Rx<User>(await account.value.get());
+  void initUser(User user) async {
+    this.user = Rx<User>(user);
+    updateLoginState(true);
+  }
+
+  bool loginState() {
+    return box.read(loginKey) ?? false;
+  }
+
+  void updateLoginState(bool state) {
+    logined.value = state;
+    box.write(loginKey, state);
   }
 }

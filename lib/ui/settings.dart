@@ -100,20 +100,10 @@ class Settings extends StatelessWidget {
             leading: const Icon(Icons.sync),
             title: const Text('Data Sync'),
             subtitle: const Text('Manage cloud sync settings'),
-            onTap: () async {
-              // await dataController.login(
-              //     email: 'iraq.rsol@gmail.com', password: '11223344@');
-              //await dataController.user.value.deleteSessions();
-              //   dataController.user.value =
-              //      await dataController.account.value.get();
-              // print(s.isBlank);
-              //print(await dataController.user.value.client.setSession('value'));
-              //print(await dataController.session.value);
-              // Handle data sync settings
-            },
+            onTap: () async {},
           ),
           Obx(
-            () => dataController.loginState.value
+            () => dataController.logined.value
                 ? ListTile(
                     leading: const Icon(Icons.logout),
                     title: const Text('Logout'),

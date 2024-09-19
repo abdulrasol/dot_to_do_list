@@ -12,10 +12,17 @@ void main() async {
   initializeDateFormatting();
   await GetStorage.init();
   DataController dataController = Get.put(DataController());
-  if (await dataController.box.read('session') != null) {
-    dataController.loginState.value = true;
-    dataController.initUser();
+
+  try {
+    var user = await dataController.account.value.get();
+    dataController.initUser(user);
+  } catch (e) {
+    dataController.logout();
   }
+  // if (await dataController.box.read('session') != null) {
+  //   dataController.loginState.value = true;
+  //   dataController.initUser();
+  // }
   runApp(const App());
 }
 

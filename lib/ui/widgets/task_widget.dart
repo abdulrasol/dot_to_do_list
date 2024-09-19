@@ -1,6 +1,6 @@
+import 'package:dot_to_do_list/controllers/data_controller.dart';
 import 'package:dot_to_do_list/models/task_model.dart';
 import 'package:dot_to_do_list/controllers/ui_controller.dart';
-import 'package:dot_to_do_list/ui/add_edit_task.dart';
 import 'package:dot_to_do_list/ui/task_page.dart';
 
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class _TaskWidgetState extends State<TaskWidget> {
   @override
   Widget build(BuildContext context) {
     UiController uiController = Get.put(UiController());
-    //  DataController dataController = Get.find();
+    DataController dataController = Get.find();
     //var format = DateFormat.yMd('ar');
     return GestureDetector(
       onLongPress: () {
@@ -46,7 +46,11 @@ class _TaskWidgetState extends State<TaskWidget> {
                       Checkbox(
                           value: widget.task.isCompleted,
                           onChanged: (value) {
-                            //dataController.compeletetask(widget.task);
+                            TaskModel temp = widget.task;
+                            temp.isCompleted != widget.task.isCompleted;
+                            dataController.databsaeServices
+                                .editTask(widget.task, temp);
+
                             setState(() {
                               widget.task.isCompleted = value!;
                             });

@@ -1,7 +1,7 @@
+import 'package:appwrite/appwrite.dart';
 import 'package:dot_to_do_list/controllers/data_controller.dart';
 import 'package:dot_to_do_list/models/task_model.dart';
 import 'package:dot_to_do_list/controllers/ui_controller.dart';
-import 'package:dot_to_do_list/services/databsae_services.dart';
 import 'package:dot_to_do_list/ui/widgets/style.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +18,7 @@ class AddTaskWidget extends StatelessWidget {
     GlobalKey<FormState> formKey = GlobalKey<FormState>();
     TextEditingController titleText = TextEditingController();
     TextEditingController contenctText = TextEditingController();
-    DatabsaeServices databsaeServices = DatabsaeServices();
+    //  DatabaseServices databsaeServices = DatabaseServices();
 
     Priority priority = Priority.medium;
 
@@ -187,28 +187,25 @@ class AddTaskWidget extends StatelessWidget {
                             uiController.reminderTime.value.minute,
                           );
                         }
-                        if (dataController.loginState.value) {
-                          var task = TaskModel(
-                            id: '1',
-                            title: titleText.text,
-                            description: contenctText.text,
-                            dueDate: uiController.dueDate.value,
-                            priority: priority,
-                            // reminderTime: uiController.hasReminder.value
-                            //     ? uiController.reminderTime.value
-                            //     : null,
-                            createdAt: DateTime.now(),
-                            hasReminder: uiController.hasReminder.value,
-                            userID: dataController.loginState.value
-                                ? dataController.user.value.$id
-                                : null,
-                          );
-                          if (dataController.loginState.value) {
-                            await databsaeServices.addTask(task);
-                          } else {
-                            dataController.saveTask(task);
-                          }
-                        }
+
+                        var task = TaskModel(
+                          id: ID.unique(),
+                          title: titleText.text,
+                          description: contenctText.text,
+                          dueDate: uiController.dueDate.value,
+                          priority: priority,
+                          // reminderTime: uiController.hasReminder.value
+                          //     ? uiController.reminderTime.value
+                          //     : null,
+                          createdAt: DateTime.now(),
+                          hasReminder: uiController.hasReminder.value,
+                          userID: dataController.loginState()
+                              ? dataController.user.value.$id
+                              : null,
+                        );
+                        //print('from add w');
+                        await dataController.databsaeServices.addTask(task);
+
                         Get.back();
                       }
                     },
