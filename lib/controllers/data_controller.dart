@@ -64,7 +64,6 @@ class DataController extends GetxController {
       databsaeServices = OnlineDataBase();
     } else {
       databsaeServices = LocalDataBase();
-      print('local');
     }
     tasks.value = await databsaeServices.getTasks();
     box.listenKey('tasks', (temp) async {

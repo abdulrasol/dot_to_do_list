@@ -46,8 +46,10 @@ class _TaskWidgetState extends State<TaskWidget> {
                       Checkbox(
                           value: widget.task.isCompleted,
                           onChanged: (value) {
-                            TaskModel temp = widget.task;
-                            temp.isCompleted != widget.task.isCompleted;
+                            TaskModel temp =
+                                TaskModel.fromMap(widget.task.toMap());
+                            temp.isCompleted = !widget.task.isCompleted;
+
                             dataController.databsaeServices
                                 .editTask(widget.task, temp);
 
@@ -128,13 +130,17 @@ class _TaskWidgetState extends State<TaskWidget> {
                           Icon(widget.task.hasReminder
                               ? Icons.alarm
                               : Icons.alarm_off),
-                          // Text(widget.task.hasReminder
-                          //     ? widget.task.reminderTime!.format(context)
-                          //     : ''),
-                          Text(
-                            '${widget.task.priority.toString().split('.')[1][0].capitalize}',
-                            style: const TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                          TextButton(
+                            onPressed: () {
+                              dataController.databsaeServices
+                                  .removeTask(widget.task);
+                              dataController.tasks.remove(widget.task);
+                            },
+                            child: Text(
+                              '${widget.task.priority.toString().split('.')[1][0].capitalize}',
+                              style: const TextStyle(
+                                  fontSize: 12, fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ],
                       )

@@ -187,25 +187,19 @@ class AddTaskWidget extends StatelessWidget {
                             uiController.reminderTime.value.minute,
                           );
                         }
-
                         var task = TaskModel(
                           id: ID.unique(),
                           title: titleText.text,
                           description: contenctText.text,
                           dueDate: uiController.dueDate.value,
                           priority: priority,
-                          // reminderTime: uiController.hasReminder.value
-                          //     ? uiController.reminderTime.value
-                          //     : null,
                           createdAt: DateTime.now(),
                           hasReminder: uiController.hasReminder.value,
                           userID: dataController.loginState()
                               ? dataController.user.value.$id
                               : null,
                         );
-                        //print('from add w');
                         await dataController.databsaeServices.addTask(task);
-
                         Get.back();
                       }
                     },
