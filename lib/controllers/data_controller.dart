@@ -10,7 +10,7 @@ import 'package:get_storage/get_storage.dart';
 
 class DataController extends GetxController {
   Client client = Client();
-  late AbstractDataBase databsaeServices;
+  late DatabaseServies databsaeServices;
   RxList<TaskModel> tasks = RxList.empty();
   late Rx<Account> account;
   late Rx<Session> session;

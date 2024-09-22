@@ -49,7 +49,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                             TaskModel temp =
                                 TaskModel.fromMap(widget.task.toMap());
                             temp.isCompleted = !widget.task.isCompleted;
-
+                            temp.updatedAt = DateTime.now();
                             dataController.databsaeServices
                                 .editTask(widget.task, temp);
 
@@ -88,27 +88,6 @@ class _TaskWidgetState extends State<TaskWidget> {
                                     : FontStyle.normal,
                               ),
                             ),
-                            // Text.rich(
-                            //   TextSpan(children: [
-                            //     TextSpan(
-                            //       text: uiController.dateFormat
-                            //           .format(widget.task.dueDate),
-                            //     ),
-                            //     TextSpan(text: ' - '),
-                            //     TextSpan(
-                            //         text: widget.task.hasReminder
-                            //             ? widget.task.reminderTime!
-                            //                 .format(context)
-                            //             : ''),
-                            //     // )
-                            //   ]),
-                            //   style: TextStyle(
-                            //     fontWeight: FontWeight.normal,
-                            //     fontStyle: widget.task.isCompleted
-                            //         ? FontStyle.italic
-                            //         : FontStyle.normal,
-                            //   ),
-                            // ),
                             Text(
                               uiController.dateFormat
                                   .format(widget.task.dueDate),
